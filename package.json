@@ -1,0 +1,25 @@
+{
+  "name": "project-jam-server",
+  "version": "1.0.0",
+  "description": "my capstone project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/methak/project-jam-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/methak/project-jam-server/issues"
+  },
+  "homepage": "https://github.com/methak/project-jam-server#readme",
+  "dependencies": {
+    "apollo-server": "^3.4.0",
+    "dotenv": "^10.0.0",
+    "google-auth-library": "^7.10.0",
+    "mongoose": "^6.0.10"
+  }
+}
