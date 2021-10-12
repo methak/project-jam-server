@@ -32,7 +32,7 @@ const checkIfUserExitsts = async email => await User.findOne({email}).exec()
 
 const createNewUser = googleUser => {
     const { name, email, picture } = googleUser
-    const user = { name, email }
+    const user = { name, email, picture }
     console.log('Creating New USer -->', user)
     return new User(user).save()
 }
