@@ -32,7 +32,9 @@ module.exports = {
           }).save();
           const storeAdded = await Store.populate(newStore, "shopper");
           pubsub.publish(STORE_ADDED, { storeAdded });
+          console.log(newStore)
           return storeAdded;
+          
         }),
         deleteStore: authenticated(async (root, args, ctx) => {
           const StoreDeleted = await Store.findOneAndDelete({

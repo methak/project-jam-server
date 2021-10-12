@@ -16,7 +16,7 @@ module.exports = gql`
         content: String
         image: String
         latitude : Float
-        lontitude: Float
+        longitude: Float
         shopper : User
         items: [Item]
     }
