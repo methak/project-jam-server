@@ -17,6 +17,7 @@ const authenticated = next => (root, args, ctx, info) => {
 module.exports = {
     Query : {
         me: authenticated((root, args, ctx ) => ctx.currentUser),
+        
         getStores: async (root, args, ctx) => {
             const stores = await Store.find({})
               .populate("shopper")
@@ -45,7 +46,7 @@ module.exports = {
           return StoreDeleted;
         }),
         createItem: authenticated(async (root, args, ctx) => {
-          const newItem = { text: args.text, shopper: ctx.currentUser._id };
+          const newItem = { name: args.name, shopper: ctx.currentUser._id };
           const storeUpdated = await Store.findOneAndUpdate(
             { _id: args.storeId },
             { $push: { items: newItem } },

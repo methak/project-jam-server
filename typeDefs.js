@@ -22,7 +22,9 @@ module.exports = gql`
     }
 
     type Item {
-        text: String
+        name: String
+        quantity: Int
+        isBought: Boolean
         createdAt: String
         shopper: User
     }
@@ -43,7 +45,7 @@ module.exports = gql`
     type Mutation {
         createStore(input: createStoreInput!): Store
         deleteStore(storeId: ID!): Store
-        createItem(storeId: ID!, text: String!): Store
+        createItem(storeId: ID!, name: String!): Store
       }
     
       type Subscription {

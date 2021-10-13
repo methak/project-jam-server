@@ -9,7 +9,10 @@ const StoreSchema = new mongoose.Schema({
     shopper: { type: mongoose.Schema.ObjectId, ref: "User" },
     items: [
         {
-            text: String,
+            name: String,
+            quantity: { type: Number, default: 0 },
+            isBought: { type: Boolean, default: false },
+            // tags: [{ tag: String }],
             createdAt: { type: Date, default: Date.now},
             shopper: { type: mongoose.Schema.ObjectId, ref: "User" }
         }
