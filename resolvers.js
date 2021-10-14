@@ -71,8 +71,22 @@ module.exports = {
             return storeRemovedItem;
         }),
         updateItem: authenticated(async (root, args, ctx) => {
-            //const newItems = { items: args.items, shopper: ctx.currentUser._id };
+          //check if user request for toggle isBought Boolean by passing quantity value=0  
+          if(args.quantity==0){
             const storeUpdateItem = await Store.findOneAndUpdate(
+              { _id: args.storeId, "items._id": args.itemId },
+              { $set: { "items.$.isBought":args.isBought } },
+              { new: true }
+          )
+              .populate("shopper")
+              //.populate("items.shopper");
+          pubsub.publish(STORE_UPDATED, { storeUpdateItem });
+          console.log("Store Updated : ", storeUpdateItem);
+          return storeUpdateItem;
+
+          }
+          else{
+          const storeUpdateItem = await Store.findOneAndUpdate(
                 { _id: args.storeId, "items._id": args.itemId },
                 { $inc: { "items.$.quantity": args.quantity } },
                 { new: true }
@@ -82,6 +96,7 @@ module.exports = {
             pubsub.publish(STORE_UPDATED, { storeUpdateItem });
             console.log("Store Updated : ", storeUpdateItem);
             return storeUpdateItem;
+          }
         })
     },
       Subscription: {

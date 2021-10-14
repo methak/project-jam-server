@@ -48,7 +48,7 @@ module.exports = gql`
         deleteStore(storeId: ID!): Store
         createItem(storeId: ID!, name: String!): Store
         deleteItem(storeId: ID!, itemId: ID!): Store
-        updateItem(storeId: ID!, itemId: ID!, quantity: Int!): Store
+        updateItem(storeId: ID!, itemId: ID!, quantity: Int!, isBought: Boolean!): Store
     }
       type Subscription {
         storeAdded: Store
