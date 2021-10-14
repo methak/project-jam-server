@@ -46,7 +46,7 @@ module.exports = {
           return StoreDeleted;
         }),
         createItem: authenticated(async (root, args, ctx) => {
-          const newItem = { name: args.name, shopper: ctx.currentUser._id };
+          const newItem = { name: args.name, quantity: 1, shopper: ctx.currentUser._id };
           const storeUpdated = await Store.findOneAndUpdate(
             { _id: args.storeId },
             { $push: { items: newItem } },
@@ -56,8 +56,34 @@ module.exports = {
             .populate("items.shopper");
           pubsub.publish(STORE_UPDATED, { storeUpdated });
           return storeUpdated;
+        }),
+        deleteItem: authenticated(async (root, args, ctx) => {
+            //const newItems = { items: args.items, shopper: ctx.currentUser._id };
+            const storeRemovedItem = await Store.findOneAndUpdate(
+              { _id: args.storeId },
+              { $pull: { items: {_id: args.itemId} } },
+              { new: true }
+            )
+              .populate("shopper")
+              .populate("items.shopper");
+            pubsub.publish(STORE_UPDATED, { storeRemovedItem });
+            console.log("Store Remove : ",storeRemovedItem);
+            return storeRemovedItem;
+        }),
+        updateItem: authenticated(async (root, args, ctx) => {
+            //const newItems = { items: args.items, shopper: ctx.currentUser._id };
+            const storeUpdateItem = await Store.findOneAndUpdate(
+                { _id: args.storeId, "items._id": args.itemId },
+                { $inc: { "items.$.quantity": args.quantity } },
+                { new: true }
+            )
+                .populate("shopper")
+                //.populate("items.shopper");
+            pubsub.publish(STORE_UPDATED, { storeUpdateItem });
+            console.log("Store Updated : ", storeUpdateItem);
+            return storeUpdateItem;
         })
-      },
+    },
       Subscription: {
         storeAdded: {
           subscribe: () => pubsub.asyncIterator(STORE_ADDED)

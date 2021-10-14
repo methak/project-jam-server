@@ -14,14 +14,12 @@ exports.findOrCreateUser = async token => {
 }
 
 const verifyAuthToken = async token => {
-    console.log('ENV -> ',process.env.OAUTH_CLIENT_ID);
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
             audience: process.env.OAUTH_CLIENT_ID
 
         })
-        console.log(ticket.getPayload());
         return ticket.getPayload()
     } catch (err) {
         console.error("Error verifing auth token", err)
@@ -33,6 +31,6 @@ const checkIfUserExitsts = async email => await User.findOne({email}).exec()
 const createNewUser = googleUser => {
     const { name, email, picture } = googleUser
     const user = { name, email, picture }
-    console.log('Creating New USer -->', user)
+    console.log('Creating New User -->', user)
     return new User(user).save()
 }

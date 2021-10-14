@@ -22,6 +22,7 @@ module.exports = gql`
     }
 
     type Item {
+        _id: ID
         name: String
         quantity: Int
         isBought: Boolean
@@ -46,8 +47,9 @@ module.exports = gql`
         createStore(input: createStoreInput!): Store
         deleteStore(storeId: ID!): Store
         createItem(storeId: ID!, name: String!): Store
-      }
-    
+        deleteItem(storeId: ID!, itemId: ID!): Store
+        updateItem(storeId: ID!, itemId: ID!, quantity: Int!): Store
+    }
       type Subscription {
         storeAdded: Store
         storeDeleted: Store
