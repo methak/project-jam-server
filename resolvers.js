@@ -97,7 +97,21 @@ module.exports = {
             console.log("Store Updated : ", storeUpdateItem);
             return storeUpdateItem;
           }
-        })
+        }),
+        updateStore: authenticated(async (root, args, ctx) => {
+            const storeUpdateItem = await Store.findOneAndUpdate(
+              { _id: args.storeId },
+              { $set: { image: args.image } },
+              { new: true }
+          )
+              .populate("shopper")
+              //.populate("items.shopper");
+          pubsub.publish(STORE_UPDATED, { storeUpdateItem });
+          console.log("Store Updated : ", storeUpdateItem);
+          return storeUpdateItem;
+          
+        }) 
+          
     },
       Subscription: {
         storeAdded: {
