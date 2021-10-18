@@ -20,11 +20,12 @@ module.exports = {
         
         getStores: async (root, args, ctx) => {
             const stores = await Store.find({
-              shopper: ctx.currentUser._id
+              shopper: args.shopper
             })
               .populate("shopper")
               .populate("items.shopper");
             return stores;
+
           }
     },
     Mutation: {

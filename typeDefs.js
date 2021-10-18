@@ -40,7 +40,7 @@ module.exports = gql`
 
     type Query {
         me : User
-        getStores: [Store!]
+        getStores(shopper : ID!): [Store!]
     }
 
     type Mutation {
