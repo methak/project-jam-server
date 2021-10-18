@@ -19,7 +19,9 @@ module.exports = {
         me: authenticated((root, args, ctx ) => ctx.currentUser),
         
         getStores: async (root, args, ctx) => {
-            const stores = await Store.find({})
+            const stores = await Store.find({
+              shopper: ctx.currentUser._id
+            })
               .populate("shopper")
               .populate("items.shopper");
             return stores;
